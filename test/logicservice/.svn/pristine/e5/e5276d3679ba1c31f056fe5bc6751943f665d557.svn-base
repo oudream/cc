@@ -1,0 +1,11 @@
+include($$PWD/../../qtproject.pri)
+
+HEADERS += \
+    reversePolishNotation.h \
+    checkWFLogic.h \
+#    temp.h
+
+SOURCES += \
+    logicservicemain.c \
+    checkWFLogic.c \
+    checkWFLogicError.c

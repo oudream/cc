@@ -1,0 +1,118 @@
+#ifndef CHECKWFLOGIC_H
+#define CHECKWFLOGIC_H
+
+
+typedef struct tagDeviceNormal {
+//    int index;
+    int state;
+    int quality;
+    long long time;
+    int state_simu;
+    int state_temp;
+    char * name;
+    char * hldata;
+    char * lldata;
+} DeviceNormal;
+
+typedef struct tagDeviceThree {
+//    int index;
+    int state;
+    int quality;
+    long long time;
+    int state_simu;
+    int state_temp;
+    char * name;
+    char * gsldata;
+    char * gjldata;
+    char * sgldata;
+    char * sjldata;
+    char * jsldata;
+} DeviceThree;
+
+
+typedef struct tagOperateItem {
+    char type;
+    int index;
+    char operate;
+} OperateItem ;
+
+
+///
+/// \brief wfl_getLastrErrorCode
+/// \return LastrErrorCode
+///
+int wfl_getLastrErrorCode();
+
+///
+/// \brief wfl_getErrorString
+/// \param iErrorCode
+/// \return ErrorString
+///
+char * wfl_getErrorString(int iErrorCode);
+
+
+/// \return : 0 success ;
+/// \return : 1 File error ; 2 Memory error ; 3 Reading error ;
+/******************************************************************
+【函数名称】       wfl_loadLDataByFile
+【函数功能】       加载"ldata.fil"文件来初始化本程序用到的设备及
+【参数】           （必需。标明各参数是输入参数还是输出参数。）
+【返回值】         （必需。解释返回值的意义。）
+【开发者及日期】   （必需）
+【注释者及日期】   （必需）
+【更改记录】       （若有修改，则必需注明）
+*****************************************************************/
+int wfl_loadLDataByFile(const char* sFileName);
+
+int wfl_loadLDataByBuffer(const char* pBuffer, int iSize);
+
+
+/// \return -1表示错误；0~3表示相应的逻辑错误信息；4表示通过；8特殊，表示情况条件错误，此种情况只会出现在只有一个逻辑，但有情况条件的情况下
+/// \param devInfoList : 组装后的设备状态信息；
+/// \param sOperates : 组装后的操作序列
+/// \param sOperates : 组装后的操作序列
+/// \e.g. : 901 H:{9012=0F}9011=01，此种逻辑可能不存在，加这种判断可能在旁母充电中能用到
+int wfl_checkLData(const char* sOperateQueue, const char* sDeviceStateList, char* sError);
+
+
+///
+/// \brief wfl_getDeviceNormalCount
+/// \return DeviceNormalCount
+/// \author oudream
+///
+int wfl_getDeviceNormalCount();
+
+///
+/// \brief wfl_getDeviceNormals
+/// \return DeviceNormal        f_deviceNormals[2048];
+///
+const DeviceNormal * wfl_getDeviceNormals();
+
+///
+/// \brief wfl_getDeviceThreeCount
+/// \return DeviceThreeCount
+/// \author oudream
+///
+int wfl_getDeviceThreeCount();
+
+///
+/// \brief wfl_getDeviceThrees
+/// \return DeviceThree         f_deviceThrees[512];
+///
+const DeviceThree * wfl_getDeviceThrees();
+
+///
+/// \brief wfl_getDeviceThreeCount
+/// \return DeviceThreeCount
+/// \author oudream
+///
+int wfl_getDeviceThreeCount();
+
+///
+/// \brief wfl_getDeviceThrees
+/// \return DeviceThree         f_deviceThrees[512];
+///
+const DeviceThree * wfl_getDeviceThrees();
+
+
+#endif //CHECKWFLOGIC_H

@@ -1,0 +1,155 @@
+#ifndef CHECKWFLOGIC_H
+#define CHECKWFLOGIC_H
+
+
+/*********************************************************************
+ @brief             : 逻辑表达式检测
+ @author            : oudream
+ @create date       : 2013-6-3
+ @copyright         :
+ @attention         : 注意 - 注意 - 注意 : 所有参数的指针（输入、输出），函数调用方自己管理；
+                      所有函数返回值是指针的，不用需调用方管理；以上除非有特殊说明才能忽略！！！
+ @modify log        :
+*********************************************************************/
+
+
+/******
+ @brief             : 普通设备、两态设备数据结构
+ @function          : 保存设备的配置信息与实时状态
+ @author            : oudream
+ @create date       : 2013-6-3
+ @modify log        :
+******/
+typedef struct tagDeviceNormal {
+    int state;
+    int quality;
+    long long time;
+    int state_simu;
+    int state_temp;
+    char * name;
+    char * hldata;
+    char * lldata;
+} DeviceNormal;
+
+
+/******
+ @brief             : 三态设备数据结构
+ @function          : 保存设备的配置信息与实时状态
+ @author            : oudream
+ @create date       : 2013-6-3
+ @modify log        :
+******/
+typedef struct tagDeviceThree {
+    int state;
+    int quality;
+    long long time;
+    int state_simu;
+    int state_temp;
+    char * name;
+    char * gsldata;
+    char * gjldata;
+    char * sgldata;
+    char * sjldata;
+    char * jsldata;
+} DeviceThree;
+
+
+/******
+ @brief             : 操作队列
+ @function          : 保存操作项的
+ @author            : oudream
+ @create date       : 2013-6-3
+ @modify log        :
+******/
+typedef struct tagOperateItem {
+    char type;
+    int index;
+    char operate;
+} OperateItem ;
+
+
+///
+/// \brief wfl_getLastrErrorCode
+/// \return LastrErrorCode
+///
+int wfl_getLastrErrorCode();
+
+///
+/// \brief wfl_getErrorString
+/// \param iErrorCode
+/// \return ErrorString
+///
+char * wfl_getErrorString(int iErrorCode);
+
+/***
+ @brief             : 加载"ldata.fil"文件来初始化本程序用到的设备及
+ @param.sFileName   : 全文件名
+ @return            : 返回加载了多少个设备信息。其它返回值：1 File error ; 2 Memory error ;
+                      3 Reading error ;
+ @author            : oudream
+ @modify            :
+***/
+int wfl_loadLDataByFile(const char* sFileName);
+
+///
+/// \brief wfl_loadLDataByBuffer
+/// \param pBuffer
+/// \param iSize
+/// \return
+///
+int wfl_loadLDataByBuffer(const char* pBuffer, int iSize);
+
+
+/***
+ @brief                 : 检测操作队列最后的操作项能否操作
+ @param.sOperateQueue   : 操作队列, e.g. "2261=0 \n 2030=0 \n 22613=1"
+ @param.sDeviceStateList: 设备状态, e.g. "2261=0,2030=0,22613=1,2225=1,...,2219=0"
+ @param.sError          : 错误字符串
+ @return                : 0表示成功；大于0表示相应错误码
+ @author                : oudream
+ @modify                :
+***/
+int wfl_checkLData(const char* sOperateQueue, const char* sDeviceStateList, char* sError);
+
+
+///
+/// \brief wfl_getDeviceNormalCount
+/// \return DeviceNormalCount
+/// \author oudream
+///
+int wfl_getDeviceNormalCount();
+
+///
+/// \brief wfl_getDeviceNormals
+/// \return DeviceNormal        f_deviceNormals[2048];
+///
+const DeviceNormal * wfl_getDeviceNormals();
+
+///
+/// \brief wfl_getDeviceThreeCount
+/// \return DeviceThreeCount
+/// \author oudream
+///
+int wfl_getDeviceThreeCount();
+
+///
+/// \brief wfl_getDeviceThrees
+/// \return DeviceThree         f_deviceThrees[512];
+///
+const DeviceThree * wfl_getDeviceThrees();
+
+///
+/// \brief wfl_getDeviceThreeCount
+/// \return DeviceThreeCount
+/// \author oudream
+///
+int wfl_getDeviceThreeCount();
+
+///
+/// \brief wfl_getDeviceThrees
+/// \return DeviceThree         f_deviceThrees[512];
+///
+const DeviceThree * wfl_getDeviceThrees();
+
+
+#endif //CHECKWFLOGIC_H
